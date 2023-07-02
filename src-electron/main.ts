@@ -39,6 +39,10 @@ function createWindow() {
     return writeTest2(name)
   })
 
+  ipcMain.handle('saveFile3', (event, name) => {
+    return writeTest3(name)
+  })
+
   win.webContents.openDevTools();
   win.loadFile("dist/index.html");
 }
@@ -80,5 +84,30 @@ function writeTest2(name){
     console.error('Failed to save the file async !'); 
     console.error(e); 
     console.error(e.message); 
+  }
+}
+
+function writeTest3(name){
+  const fs = require('fs/promises')
+  const { dialog } = require('electron')
+
+  try { 
+    console.log("writeTest3")
+    //return fs.writeFile(`${name}-test-2.txt`, 'Test 3'); 
+
+    dialog.showSaveDialog({
+      title: "Test dialog",
+      message: "Test dialog message"
+    }).then((result) => {
+      if (result.canceled) {
+        return;
+      }
+
+      return fs.writeFile(result.filePath, 'Test dialog'); 
+
+    })
+
+  } catch(e) { 
+    console.log("writeTest3 error !")
   }
 }

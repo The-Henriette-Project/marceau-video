@@ -12,13 +12,18 @@ const handleClick = function() {
 
   
   window.electronAPI.setTitle2("IPC TEST FROM COMPONENT 2").then(data => {
-    alert(data);
+    //alert(data);
+    console.log("set title2 ok...")
   })
   
   window.electronAPI.save1(video.value)
   
   window.electronAPI.save2(video.value).then(() => {
     console.log("save2 done.")
+  })
+
+  window.electronAPI.save3(video.value).then(() => {
+    console.log("save3 done.")
   })
 }
 
