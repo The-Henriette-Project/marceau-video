@@ -17,6 +17,22 @@ function createWindow() {
     const win = BrowserWindow.fromWebContents(webContents)
     win.setTitle(title)
   })
+
+  ipcMain.handle('set-title-2', (event, title) => {
+    
+    
+    const webContents = event.sender
+    const win = BrowserWindow.fromWebContents(webContents)
+    win.setTitle(title)
+
+    return new Promise(function(resolve) {
+        setTimeout(()=>{
+          resolve("title after 3s !!");
+        }, 3000);
+    });
+
+    
+  })
   
   win.webContents.openDevTools();
   win.loadFile("dist/index.html");

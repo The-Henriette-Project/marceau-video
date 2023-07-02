@@ -3,7 +3,8 @@ const { contextBridge, ipcRenderer } = require('electron')
 console.log('Hello from Electron PRELOAD')
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  setTitle: (title) => ipcRenderer.send('set-title', title)
+  setTitle: (title) => ipcRenderer.send('set-title', title),
+  setTitle2: (title) => ipcRenderer.invoke('set-title-2', title)
 })
 
 window.addEventListener("DOMContentLoaded", () => {
