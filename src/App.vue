@@ -5,7 +5,7 @@ import HelloWorld from './components/HelloWorld.vue'
 <template>
   <div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <HelloWorld msg="Marceau video" />
 
   
 

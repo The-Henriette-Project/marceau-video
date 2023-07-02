@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 defineProps<{ msg: string }>()
 console.log('Hello from VUE component')
 const count = ref(0)
 const video = ref("")
 const time = ref("")
+const vtt = ref(`WEBVTT
+00:01.000 --> 00:04.000
+This is a test
+00:05.000 --> 00:09.000
+yes, a test`)
+
 
 const handleClick = function() {
   count.value++;
@@ -65,6 +71,11 @@ const handleTime = function(e) {
 }
 
 
+
+const vttEncoded = computed(()=> {
+  return "data:text/vtt;base64," +  btoa(vtt.value)
+}) ;
+
 </script>
 
 <template>
@@ -73,13 +84,18 @@ const handleTime = function(e) {
   <div class="card">
     <button type="button" @click="handleClick">count is {{ count }}</button>
 
-    <video width="300" @timeupdate="handleTime" :src="video" controls />
+    <video width="300" @timeupdate="handleTime" :src="video" controls>
+      <track label="Test" kind="subtitles" srclang="fr" :src="vttEncoded" default>
+
+    </video>
 
     <div @drop="handleDrop" @dragover="handleDragover">
       Drag your video here 
       <p>{{ time }}</p>
       {{ video }}
     </div>
+
+    <textarea v-model="vtt"></textarea>
 
   </div>
 
