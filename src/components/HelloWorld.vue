@@ -5,6 +5,7 @@ defineProps<{ msg: string }>()
 console.log('Hello from VUE component')
 const count = ref(0)
 const video = ref("")
+const time = ref("")
 
 const handleClick = function() {
   count.value++;
@@ -43,6 +44,26 @@ const handleDragover = function(e) {
   //console.log("dragover", e);
 }
 
+const handleTime = function(e) {
+  const currentTime = e.target.currentTime
+  
+  var minutes = Math.floor(currentTime / 60);
+  var hours = Math.floor(minutes / 60);   
+  var seconds = Math.floor(currentTime - minutes * 60);
+  var floatSeconds = currentTime - minutes * 60;
+
+  //console.log("handleTime", currentTime);
+  //console.log("handleTime", `${hours}:${minutes}:${seconds}`);
+  //console.log("handleTime", `${hours}:${minutes}:${floatSeconds}`);
+
+  hours = hours < 10 ? '0' + hours : hours;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  floatSeconds = floatSeconds < 10 ? '0' + floatSeconds : floatSeconds;
+
+
+  time.value = `${hours}:${minutes}:${floatSeconds}`
+}
+
 
 </script>
 
@@ -52,10 +73,11 @@ const handleDragover = function(e) {
   <div class="card">
     <button type="button" @click="handleClick">count is {{ count }}</button>
 
-    <video width="300" :src="video" controls />
+    <video width="300" @timeupdate="handleTime" :src="video" controls />
 
     <div @drop="handleDrop" @dragover="handleDragover">
       Drag your video here 
+      <p>{{ time }}</p>
       {{ video }}
     </div>
 

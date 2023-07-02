@@ -97,7 +97,14 @@ function writeTest3(name){
 
     dialog.showSaveDialog({
       title: "Test dialog",
-      message: "Test dialog message"
+      message: "Test dialog message", 
+      defaultPath: "yeah",
+      filters: [
+        {
+          name:"test text",
+          extensions:["txt"]
+        }
+      ]
     }).then((result) => {
       if (result.canceled) {
         return;
