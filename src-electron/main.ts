@@ -3,6 +3,7 @@ const path = require("path");
 
 console.log('Hello from Electron MAIN')
 
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 800,
@@ -19,8 +20,6 @@ function createWindow() {
   })
 
   ipcMain.handle('set-title-2', (event, title) => {
-    
-    
     const webContents = event.sender
     const win = BrowserWindow.fromWebContents(webContents)
     win.setTitle(title)
@@ -30,10 +29,16 @@ function createWindow() {
           resolve("title after 3s !!");
         }, 3000);
     });
-
-    
   })
   
+  ipcMain.on('saveFile1', (event, name) => {
+    return writeTest1(name)
+  })
+
+  ipcMain.handle('saveFile2', (event, name) => {
+    return writeTest2(name)
+  })
+
   win.webContents.openDevTools();
   win.loadFile("dist/index.html");
 }
@@ -53,3 +58,27 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
+
+function writeTest1(name){
+  const fs = require('fs');
+  try { 
+    console.log("writeTest1")
+    fs.writeFileSync('myfile.txt', 'Test 1', 'utf-8'); 
+    fs.writeFileSync(`${name}-test.txt`, 'Test 2', 'utf-8'); 
+  } catch(e) { 
+    console.error('Failed to save the file !'); 
+  }
+}
+
+function writeTest2(name){
+  const fs = require('fs/promises')
+  try { 
+    console.log("writeTest2")
+    return fs.writeFile(`${name}-test-2.txt`, 'Test 3'); 
+  } catch(e) { 
+    console.log("writeTest2 error !")
+    console.error('Failed to save the file async !'); 
+    console.error(e); 
+    console.error(e.message); 
+  }
+}

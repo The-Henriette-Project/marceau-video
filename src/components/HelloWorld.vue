@@ -10,12 +10,16 @@ const handleClick = function() {
   count.value++;
   window.electronAPI.setTitle("IPC TEST FROM COMPONENT 1")
 
-  //await
+  
   window.electronAPI.setTitle2("IPC TEST FROM COMPONENT 2").then(data => {
     alert(data);
   })
   
-
+  window.electronAPI.save1(video.value)
+  
+  window.electronAPI.save2(video.value).then(() => {
+    console.log("save2 done.")
+  })
 }
 
 const handleDrop = function(e) {
@@ -43,7 +47,7 @@ const handleDragover = function(e) {
   <div class="card">
     <button type="button" @click="handleClick">count is {{ count }}</button>
 
-    <video :src="video" controls />
+    <video width="300" :src="video" controls />
 
     <div @drop="handleDrop" @dragover="handleDragover">
       Drag your video here 

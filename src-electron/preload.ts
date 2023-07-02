@@ -1,10 +1,16 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
+
+
 console.log('Hello from Electron PRELOAD')
+
+
 
 contextBridge.exposeInMainWorld('electronAPI', {
   setTitle: (title) => ipcRenderer.send('set-title', title),
-  setTitle2: (title) => ipcRenderer.invoke('set-title-2', title)
+  setTitle2: (title) => ipcRenderer.invoke('set-title-2', title),
+  save1: (name) => ipcRenderer.send('saveFile1', name),
+  save2: (name) => ipcRenderer.invoke('saveFile2', name)
 })
 
 window.addEventListener("DOMContentLoaded", () => {
