@@ -43,6 +43,33 @@ function createWindow() {
     return writeTest3(name)
   })
 
+  ipcMain.handle('openVideoFile', (event, name) => {
+    const { dialog } = require('electron')
+
+    return dialog.showOpenDialog({
+      title: "Open video file",
+      message: "Select one video file", 
+      
+      /*filters: [
+        {
+          name:"test text",
+          extensions:["txt"]
+        }
+      ]*/
+    }).then((result) => {
+      console.log(result)
+
+      if (result.canceled) {
+        return;
+      }
+
+      const theResult = result.filePaths[0];
+      console.log(theResult);
+      return theResult; 
+
+    })
+  })
+
   win.webContents.openDevTools();
   win.loadFile("dist/index.html");
 }
