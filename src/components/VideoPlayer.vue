@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
+const emit = defineEmits(['currentTime'])
 defineProps<{ video: string }>()
 
-const time = ref("")
+const time = ref("00:00:00")
+
+emit('currentTime', {
+    timestamp: 0,
+    hours: '00',
+    minutes: '00',
+    seconds: '00',
+    floatSeconds: '00', 
+    label: time.value
+  });
 
 const vtt = ref(`WEBVTT
 00:01.000 --> 00:04.000
@@ -24,8 +34,17 @@ const handleTime = function(e) {
   minutes = minutes < 10 ? '0' + minutes : minutes;
   floatSeconds = floatSeconds < 10 ? '0' + floatSeconds : floatSeconds;
 
+  const label = `${hours}:${minutes}:${floatSeconds}`
+  time.value = label
 
-  time.value = `${hours}:${minutes}:${floatSeconds}`
+  emit('currentTime', {
+    timestamp: currentTime,
+    hours,
+    minutes,
+    seconds,
+    floatSeconds, 
+    label
+  });
 }
 
 const vttEncoded = computed(()=> {
@@ -37,15 +56,24 @@ const vttEncoded = computed(()=> {
 <template>
 
   <div class="videoPlayer">
-    <p>{{video}}</p>
     <video width="300" @timeupdate="handleTime" :src="video" controls>
       <track label="Test" kind="subtitles" srclang="fr" :src="vttEncoded" default>
     </video>
-
+    
+    <p class="timePanel">{{ time }}</p>
   </div>
 
 </template>
 
 <style scoped>
+.videoPlayer {
 
+}
+
+.timePanel {
+  background-color: black;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+  display: inline-block;
+}
 </style>

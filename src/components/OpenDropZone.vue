@@ -5,6 +5,7 @@ import { ref, defineEmits } from 'vue'
 const emit = defineEmits(['filePathSelected'])
 
 const filePath = ref("")
+const dropZoneClass = ref("")
 
 const handleOpen = function() {
   window.electron.openVideoFile().then((theFilePath) => {
@@ -27,6 +28,17 @@ const handleDrop = function(e) {
 }
 
 const handleDragover = function(e) {
+  console.log("over")
+  dropZoneClass.value = "active"
+
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+const handleDragout = function(e) {
+  console.log("leave")
+  dropZoneClass.value = ""
+
   e.preventDefault();
   e.stopPropagation();
 }
@@ -39,19 +51,20 @@ const emitFilePath = function(){
 </script>
 
 <template>
-
-  <div>
-    <button @click="handleOpen">Open file...</button>
+  <div @drop="handleDrop" @dragover="handleDragover" @dragleave="handleDragout" class="dropZone" :class="dropZoneClass">
+      <p><button class="actionButton" @click="handleOpen">Open file...</button></p>
+      <p><span>...or drop your video here</span></p>
   </div>
-
-  <div @drop="handleDrop" @dragover="handleDragover" class="dragZone">
-      <span>...or drop your video here</span>
-  </div>
-
-  <p>{{filePath}}</p>
-
 </template>
 
 <style scoped>
+.dropZone {
+  text-align: center;
+  border: 3px dashed white;
+  transition: 0.2s;
+}
 
+.dropZone.active {
+  border: 3px dashed lightgrey;
+}
 </style>

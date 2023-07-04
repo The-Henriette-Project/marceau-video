@@ -3,3 +3,21 @@
   margin: 0;
   padding: 0;
 }
+
+.actionButton {
+  padding: .5em;
+  border: 1px solid black;
+  margin: .5em;
+}
+
+.containerSingle {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerDouble {
+  
+}

@@ -5,13 +5,27 @@ import OpenDropZone from './components/OpenDropZone.vue'
 import VideoPlayer from './components/VideoPlayer.vue'
 
 const videoPath = ref("")
+const currentTime = ref(0)
 
 </script>
 
 <template>
-  <OpenDropZone @file-path-selected="(path) => videoPath = path " />
-  <VideoPlayer v-if="videoPath" :video="videoPath" />
-    <p>video: {{ videoPath }}</p>
+  <div v-if="!videoPath" class="containerSingle">
+    <h1>Hello, Marceau video</h1>
+    <OpenDropZone @file-path-selected="(path) => videoPath = path " />
+  </div>
+
+  <div v-if="videoPath" class="containerDouble">
+    <div class="containerDouble_contentOne">
+      <VideoPlayer :video="videoPath" @currentTime="(time) => currentTime = time.label" />
+    </div>
+
+    <div class="containerDouble_contentTwo">
+      <p>Sequences: {{ currentTime }}</p>
+      <p>Subtitles: {{ currentTime }}</p>
+    </div>
+    
+  </div>
 
 </template>
 
