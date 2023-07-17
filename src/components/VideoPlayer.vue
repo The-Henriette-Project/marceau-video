@@ -56,9 +56,12 @@ const vttEncoded = computed(()=> {
 <template>
 
   <div class="videoPlayer">
-    <video width="300" @timeupdate="handleTime" :src="video" controls>
-      <track label="Test" kind="subtitles" srclang="fr" :src="vttEncoded" default>
-    </video>
+    
+    <div>
+      <video width="300" @timeupdate="handleTime" :src="video" controls>
+        <track label="Test" kind="subtitles" srclang="fr" :src="vttEncoded" default>
+      </video>
+    </div>
     
     <p class="timePanel">{{ time }}</p>
   </div>

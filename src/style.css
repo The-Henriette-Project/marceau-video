@@ -2,6 +2,14 @@
   border: 0;
   margin: 0;
   padding: 0;
+
+  --standardSpace: 1rem;
+  --doubleSpace: 2rem;
+}
+
+#app {
+  height: 100vh;
+  width: 100vw;
 }
 
 .actionButton {
@@ -10,14 +18,39 @@
   margin: .5em;
 }
 
-.containerSingle {
-  padding: 1rem;
+.standardContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+
+  height: 100%;
+  overflow-y: scroll;
+}
+
+
+.containerSingle {
+  padding: var(--standardSpace);
+  height: calc(100% - var(--doubleSpace));
 }
 
 .containerDouble {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.containerDouble .containerDouble_contentOne {
+  background-color: grey;
+
+  padding: var(--standardSpace);
+  height: calc(100% - var(--doubleSpace));
+  justify-content: center;
   
+}
+
+.containerDouble .containerDouble_contentTwo {
+  background-color: white;
+  
+  padding: var(--standardSpace);
+  height: calc(100% - var(--doubleSpace));
 }
